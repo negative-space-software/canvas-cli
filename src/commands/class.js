@@ -19,8 +19,9 @@ const { getCourses, getAssignmentsForCourse } = require('../api/client');
 const { selectCourse } = require('../ui/select');
 const { displayCourseDetails } = require('../ui/display');
 const { displayError, requireAuth } = require('../utils/errors');
-const { isDueWithinDays, sortByDueDate } = require('../utils/dates');
+const { isDueWithinDays, sortByDueDate, getWeekEnd } = require('../utils/dates');
 const config = require('../utils/config');
+const { getWeekViewWeeks } = config;
 
 /**
  * Class command - select and view class details
@@ -65,8 +66,13 @@ async function classCommand(options) {
     // Filter for display in course details summary
     let filteredAssignments = allAssignments;
     if (!options.all) {
-      // Default: only show assignments due within 3 days in the summary
-      filteredAssignments = allAssignments.filter(a => isDueWithinDays(a, 3));
+      // Default: show assignments due within configured weeks (same as default canvas command)
+      const weeks = getWeekViewWeeks();
+      const now = new Date();
+      const targetWeekEnd = getWeekEnd(now);
+      targetWeekEnd.setDate(targetWeekEnd.getDate() + (weeks * 7));
+      const daysUntilEnd = Math.ceil((targetWeekEnd - now) / (24 * 60 * 60 * 1000));
+      filteredAssignments = allAssignments.filter(a => isDueWithinDays(a, daysUntilEnd));
     }
 
     // Display course details with filtered assignments for summary, all assignments for "View all"

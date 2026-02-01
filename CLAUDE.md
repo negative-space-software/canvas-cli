@@ -29,7 +29,8 @@ Canvas CLI is a command-line interface for interacting with Canvas LMS (by Instr
 ## Important Implementation Details
 
 ### Filtering Behavior
-- Default views show assignments due in next 3 days
+- Default `canvas` and `canvas class` views show assignments through end of configured weeks (CANVAS_WEEK_VIEW_WEEKS, default 1 = this week + next week)
+- `canvas list` and `canvas assignment` default to next 3 days (CANVAS_DEFAULT_DAYS)
 - Filters exclude past assignments and overdue assignments (based on due date)
 - `has_submitted_submissions` flag is unreliable (shows if ANY student submitted, not current user)
 - Use date-based filtering only

@@ -17,7 +17,8 @@
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const open = require('open');
-const { formatDate, getDueDateColor, groupByWeek, sortByDueDate } = require('../utils/dates');
+const { formatDate, getDueDateColor, groupByWeek, sortByDueDate, getWeekEnd } = require('../utils/dates');
+const { getWeekViewWeeks } = require('../utils/config');
 
 // Cache for course colors to ensure consistency
 const courseColorCache = new Map();
@@ -66,7 +67,7 @@ function getCourseColor(courseName, courseId, customColor) {
 }
 
 /**
- * Display a list of assignments in a table format
+ * Display a list of assignments in tree format
  */
 function displayAssignmentsList(assignments) {
   if (assignments.length === 0) {
@@ -76,20 +77,28 @@ function displayAssignmentsList(assignments) {
 
   console.log(chalk.bold('\nAssignments\n'));
 
+  const termWidth = getTerminalWidth();
+
   assignments.forEach((assignment, index) => {
     const courseColor = getCourseColor(assignment.course_name, assignment.course_id, assignment.course_color);
     const dueDate = formatDate(assignment.due_at);
     const dueDateColor = getDueDateColor(assignment.due_at);
 
-    console.log(`${chalk.gray(`${index + 1}.`)} ${courseColor(`[${assignment.course_name}]`)} ${chalk.bold(assignment.name)}`);
-    console.log(`   Due: ${chalk.hex(dueDateColor)(dueDate)}`);
+    const isLast = index === assignments.length - 1;
+    const connector = isLast ? '└─' : '├─';
 
-    if (assignment.points_possible) {
-      console.log(`   Points: ${assignment.points_possible}`);
-    }
+    // Calculate available width for assignment name
+    // Format: "  ├─ [CourseName] AssignmentName"
+    const courseTag = `[${assignment.course_name}]`;
+    const prefixLen = 5 + courseTag.length + 1; // 2 spaces + connector (2) + space (1) + course tag + space
+    const availableWidth = termWidth - prefixLen - 1;
+    const assignmentName = truncate(assignment.name, Math.max(availableWidth, 20));
 
-    console.log(); // Empty line between assignments
+    console.log(`  ${chalk.gray(connector)} ${courseColor(courseTag)} ${assignmentName}`);
+    console.log(`  ${isLast ? '  ' : '│ '}  Due: ${chalk.hex(dueDateColor)(dueDate)}`);
   });
+
+  console.log();
 }
 
 /**
@@ -178,15 +187,47 @@ async function displayCourseDetails(course, filteredAssignments, allAssignments 
     return dueDate > now;
   });
 
-  console.log(chalk.gray('Upcoming Assignments (next 3 days):'), upcoming.length);
+  // Calculate weeks for label
+  const configuredWeeks = getWeekViewWeeks();
+  const weekLabel = configuredWeeks === 0 ? 'this week' : configuredWeeks === 1 ? 'next 2 weeks' : `next ${configuredWeeks + 1} weeks`;
+  console.log(chalk.gray(`Upcoming Assignments (${weekLabel}):`), upcoming.length);
 
   if (upcoming.length > 0) {
-    console.log(chalk.bold('\nUpcoming Assignments:\n'));
-    upcoming.slice(0, 10).forEach((a, i) => {
-      const dueDateColor = getDueDateColor(a.due_at);
-      console.log(`  ${i + 1}. ${a.name}`);
-      console.log(`     Due: ${chalk.hex(dueDateColor)(formatDate(a.due_at))}\n`);
+    console.log(chalk.bold('\nUpcoming Assignments\n'));
+
+    // Group by week like the default canvas command
+    const sortedUpcoming = sortByDueDate(upcoming);
+    const weekGroups = groupByWeek(sortedUpcoming);
+    const termWidth = getTerminalWidth();
+
+    weekGroups.forEach((week, weekIndex) => {
+      // Week header
+      console.log(chalk.bold.cyan(week.label));
+
+      week.assignments.forEach((a, i) => {
+        const dueDateColor = getDueDateColor(a.due_at);
+        const dueDate = formatDate(a.due_at);
+
+        // Tree-style connector
+        const isLast = i === week.assignments.length - 1;
+        const connector = isLast ? '└─' : '├─';
+
+        // Calculate available width for assignment name
+        const prefixLen = 5; // 2 spaces + connector (2) + space (1)
+        const availableWidth = termWidth - prefixLen - 1;
+        const assignmentName = truncate(a.name, Math.max(availableWidth, 20));
+
+        console.log(`  ${chalk.gray(connector)} ${assignmentName}`);
+        console.log(`  ${isLast ? '  ' : '│ '}  Due: ${chalk.hex(dueDateColor)(dueDate)}`);
+      });
+
+      // Add spacing between weeks (except last)
+      if (weekIndex < weekGroups.length - 1) {
+        console.log();
+      }
     });
+
+    console.log();
   }
 
   console.log(chalk.bold('='.repeat(80) + '\n'));

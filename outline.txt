@@ -26,7 +26,7 @@ canvas list all due - list all due assignments
 
 canvas list all overdue - list all overdue assignments
 
-canvas class - lists class details. use select functionality to choose class. classes are sorted by dashboard display order.
+canvas class - lists class details. use select functionality to choose class. classes are sorted by dashboard display order. displays upcoming assignments using the same week view format as the default canvas command (current week + CANVAS_WEEK_VIEW_WEEKS additional weeks, grouped by week with tree-style formatting).
 
 canvas class all - same as canvas class, but lists all assignments.
 
