@@ -28,8 +28,8 @@ async function rawCommand(endpoint) {
 
     if (!endpoint) {
       console.error(chalk.red('\nError: Please provide an API endpoint'));
-      console.log(chalk.yellow('Usage: canvas raw <endpoint>'));
-      console.log(chalk.yellow('Example: canvas raw /api/v1/users/self\n'));
+      console.log(chalk.yellow('Usage: canvas-cli raw <endpoint>'));
+      console.log(chalk.yellow('Example: canvas-cli raw /api/v1/users/self\n'));
       process.exit(1);
     }
 

@@ -72,7 +72,7 @@ function displayError(error) {
 function requireAuth(config) {
   if (!config.isAuthenticated()) {
     console.error(chalk.red('\n[!] Not authenticated. Please run:'));
-    console.error(chalk.yellow('  canvas auth\n'));
+    console.error(chalk.yellow('  canvas-cli auth\n'));
     process.exit(1);
   }
 }

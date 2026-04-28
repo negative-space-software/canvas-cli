@@ -139,7 +139,7 @@ async function aboutCommand() {
       info.push(chalk.bold('Canvas:   ') + chalk.gray(canvasUrl));
       info.push('');
     } else {
-      info.push(chalk.yellow('Not authenticated - run ') + chalk.cyan('canvas auth'));
+      info.push(chalk.yellow('Not authenticated - run ') + chalk.cyan('canvas-cli auth'));
       info.push('');
     }
 
@@ -167,7 +167,7 @@ async function aboutCommand() {
       console.log(chalk.bold('  School:   ') + chalk.white(institutionName));
       console.log(chalk.bold('  Canvas:   ') + chalk.gray(canvasUrl));
     } else {
-      console.log(chalk.yellow('\n  Not authenticated - run ') + chalk.cyan('canvas auth'));
+      console.log(chalk.yellow('\n  Not authenticated - run ') + chalk.cyan('canvas-cli auth'));
     }
 
     console.log(chalk.gray('\n  A modern CLI for Canvas LMS'));
@@ -183,7 +183,7 @@ async function aboutCommand() {
       console.log(chalk.bold('  School:   ') + chalk.white(institutionName));
       console.log(chalk.bold('  Canvas:   ') + chalk.gray(canvasUrl));
     } else {
-      console.log(chalk.yellow('\n  Not authenticated - run ') + chalk.cyan('canvas auth'));
+      console.log(chalk.yellow('\n  Not authenticated - run ') + chalk.cyan('canvas-cli auth'));
     }
 
     console.log(chalk.gray('\n  A modern CLI for Canvas LMS'));

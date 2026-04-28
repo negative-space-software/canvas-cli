@@ -1,6 +1,6 @@
 # Canvas CLI
 
-A modern command-line interface for any University's Canvas LMS.
+A modern command-line interface for any university's Canvas LMS.
 
 ## Features
 
@@ -17,11 +17,10 @@ A modern command-line interface for any University's Canvas LMS.
 ## Installation
 
 ```bash
-npm install
-npm link
+npm install -g @negative-space-software/canvas-cli
 ```
 
-This makes the `canvas` command globally available.
+This makes the `canvas-cli` command globally available. During first-time auth, you'll be offered the option to add a shorter `canvas` alias to your shell config.
 
 ## Setup
 
@@ -36,42 +35,54 @@ This makes the `canvas` command globally available.
 ### Authenticate
 
 ```bash
-canvas auth
+canvas-cli auth
 ```
 
-The CLI will auto-detect your Canvas URL and store credentials securely in `.env`.
+The CLI auto-detects your Canvas URL, stores credentials in `~/.canvas-cli/.env`, and offers to install a `canvas` alias for shorter commands.
+
+### Optional: Add the `canvas` alias later
+
+If you skipped the alias prompt during auth, you can install it any time:
+
+```bash
+canvas-cli alias
+```
+
+This appends `alias canvas='canvas-cli'` to your shell rc file (`.zshrc`, `.bash_profile`, or `config.fish`). After installation, run `source` on the rc file or open a new terminal.
+
+The rest of this README uses `canvas-cli` for examples — substitute `canvas` if you've installed the alias.
 
 ## Commands
 
 ### Assignments
 
 ```bash
-canvas                # Week view - upcoming assignments grouped by week (configurable)
-canvas list           # List assignments due in next 3 days
-canvas list-all       # List all assignments
-canvas list-all-due   # List all upcoming assignments
-canvas list-all-overdue # List all overdue assignments
+canvas-cli                    # Week view - upcoming assignments grouped by week (configurable)
+canvas-cli list               # List assignments due in next 3 days
+canvas-cli list-all           # List all assignments
+canvas-cli list-all-due       # List all upcoming assignments
+canvas-cli list-all-overdue   # List all overdue assignments
 ```
 
 ### Classes
 
 ```bash
-canvas class          # Select class, view details (assignments due in 3 days)
-canvas class-all      # Select class, view all assignments
+canvas-cli class              # Select class, view details (assignments due in 3 days)
+canvas-cli class-all          # Select class, view all assignments
 ```
 
 ### Assignment Details
 
 ```bash
-canvas assignment           # Select class → assignment (uses CANVAS_DEFAULT_DAYS)
-canvas assignment -d 7      # Select class → assignment (next 7 days)
-canvas assignment -a        # Select class → assignment (all assignments)
+canvas-cli assignment         # Select class → assignment (uses CANVAS_DEFAULT_DAYS)
+canvas-cli assignment -d 7    # Select class → assignment (next 7 days)
+canvas-cli assignment -a      # Select class → assignment (all assignments)
 ```
 
 ### Submit Files
 
 ```bash
-canvas submit         # Interactive file submission
+canvas-cli submit             # Interactive file submission
 ```
 
 Workflow:
@@ -84,21 +95,13 @@ Workflow:
 ### Utilities
 
 ```bash
-canvas open           # Open Canvas in browser
-canvas raw <endpoint> # Make raw API request
+canvas-cli open                   # Open Canvas in browser
+canvas-cli raw <endpoint>         # Make raw API request
+canvas-cli alias                  # Install `canvas` shell alias
+canvas-cli about                  # Show version, license, institution
 ```
 
-Example: `canvas raw /api/v1/courses`
-
-## Project Structure
-
-```
-src/
-├── commands/      # Command implementations
-├── api/          # Canvas API client
-├── ui/           # Interactive UI components
-└── utils/        # Utilities (config, dates, errors)
-```
+Example: `canvas-cli raw /api/v1/courses`
 
 ## Visual Features
 
@@ -111,11 +114,11 @@ Due dates display with friendly named days:
 
 ### Due Date Colors
 Uses a gradient based on days until due:
-- **Red** - 1 day or less
-- **Red/Yellow** - 1-4 days (gradient)
-- **Yellow/Green** - 4-7 days (gradient)
-- **Green/Blue** - 7-14 days (gradient)
-- **Blue** - 14+ days
+- **Red** — 1 day or less
+- **Red/Yellow** — 1-4 days (gradient)
+- **Yellow/Green** — 4-7 days (gradient)
+- **Green/Blue** — 7-14 days (gradient)
+- **Blue** — 14+ days
 
 ### Course Colors
 - Uses your custom Canvas course colors
@@ -125,27 +128,28 @@ Uses a gradient based on days until due:
 ## Configuration
 
 Settings stored in `~/.canvas-cli/.env`:
-- `CANVAS_TOKEN` - Your Canvas API token
-- `CANVAS_URL` - Auto-detected Canvas instance URL
-- `CANVAS_DEFAULT_DAYS` - Default days for `canvas assignment` filtering (default: 3)
-- `CANVAS_WEEK_VIEW_WEEKS` - Additional weeks beyond current week to show (1 = this week + next week, 2 = this week + 2 more weeks, default: 1)
-- `CANVAS_WEEK_START` - Day the week starts on (sunday, monday, tuesday, wednesday, thursday, friday, saturday; default: sunday)
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `CANVAS_TOKEN` | Your Canvas API token | — |
+| `CANVAS_URL` | Auto-detected Canvas instance URL | — |
+| `CANVAS_DEFAULT_DAYS` | Default days for `assignment` filtering | 3 |
+| `CANVAS_WEEK_VIEW_WEEKS` | Additional weeks beyond current week to show in week view | 1 |
+| `CANVAS_WEEK_START` | Day the week starts on (`sunday`, `monday`, ...) | `sunday` |
 
 ## Sorting Behavior
 
 Assignments and courses respect your Canvas dashboard ordering:
-- **Week view (`canvas`)**: Grouped by week (configurable start day, default Sunday), then sorted by your dashboard course order, then by due date
+- **Week view (`canvas-cli`)**: Grouped by week (configurable start day, default Sunday), then sorted by your dashboard course order, then by due date
 - **Course selection**: Courses appear in your dashboard order
 - To change the order, drag courses on your Canvas dashboard
 
-**Note:** The `.env` file is gitignored and should never be committed.
+## Reporting Issues
 
-## Development
+Bugs, feature requests, and questions: [GitHub Issues](https://github.com/negative-space-software/canvas-cli/issues)
 
-See `outline.txt` for complete project specifications and requirements.
+## License
 
-### Key Requirements
-- Never truncate error messages - display complete output
-- Always verify API response formats before implementing features
-- Filter shows only future, unsubmitted assignments by default
-- Use arrow key navigation for all interactive selections
+Apache License 2.0 — see [LICENSE](./LICENSE).
+
+Copyright © Negative Space Software.

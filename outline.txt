@@ -4,43 +4,47 @@ This application is a CLI interface for Canvas LMS (by Instructure). Works with 
 
 Design a CLI tool with these specifications:
 
-"canvas" is the base command added to path
+"canvas-cli" is the base command added to path. Users can optionally install a `canvas` shell alias via `canvas-cli alias`.
 
 The select functionality should replicate Firebases select functionality, which uses the arrow keys to sort up and down and the space bar/enter key to confirm the currently selected item. this will be used to sort between assignments, classes, any sort of navigation
 
-The display functionality should mimic a popup, but through a CLI. Once desplaying the desired information, the program should give a list of action items, listed with numbers to execute. the user can either press enter with no number to return to the terminal, or press a number corresponding to those actions to execute them. some examples of actions could be to open the current item on canvas in a web browser, to submit an assignment with a file, etc. 
+The display functionality should mimic a popup, but through a CLI. Once desplaying the desired information, the program should give a list of action items, listed with numbers to execute. the user can either press enter with no number to return to the terminal, or press a number corresponding to those actions to execute them. some examples of actions could be to open the current item on canvas in a web browser, to submit an assignment with a file, etc.
 
-the general feel of this CLI app should be modern. use the colors for each class from canvas for accents. 
+the general feel of this CLI app should be modern. use the colors for each class from canvas for accents.
 
 Commands and descriptions
 
-canvas auth - add canvas auth token to enviroment
+canvas-cli auth - add canvas auth token to enviroment. offers to install `canvas` shell alias on first run.
 
-canvas - show upcoming assignments in a week view, grouped by week (start day configurable via CANVAS_WEEK_START, default sunday). shows current week + CANVAS_WEEK_VIEW_WEEKS additional weeks (env setting, default 1 = this week + next week). within each week, assignments are sorted by due date, then by dashboard course order.
+canvas-cli - show upcoming assignments in a week view, grouped by week (start day configurable via CANVAS_WEEK_START, default sunday). shows current week + CANVAS_WEEK_VIEW_WEEKS additional weeks (env setting, default 1 = this week + next week). within each week, assignments are sorted by due date, then by dashboard course order.
 
-canvas list - list all assignments with duedates within the next three days list items by this heiarchy: due date, class order in canvas
+canvas-cli list - list all assignments with duedates within the next three days list items by this heiarchy: due date, class order in canvas
 
-canvas list all - list all assignments
+canvas-cli list-all - list all assignments
 
-canvas list all due - list all due assignments
+canvas-cli list-all-due - list all due assignments
 
-canvas list all overdue - list all overdue assignments
+canvas-cli list-all-overdue - list all overdue assignments
 
-canvas class - lists class details. use select functionality to choose class. classes are sorted by dashboard display order. displays upcoming assignments using the same week view format as the default canvas command (current week + CANVAS_WEEK_VIEW_WEEKS additional weeks, grouped by week with tree-style formatting).
+canvas-cli class - lists class details. use select functionality to choose class. classes are sorted by dashboard display order. displays upcoming assignments using the same week view format as the default canvas-cli command (current week + CANVAS_WEEK_VIEW_WEEKS additional weeks, grouped by week with tree-style formatting).
 
-canvas class all - same as canvas class, but lists all assignments.
+canvas-cli class-all - same as canvas-cli class, but lists all assignments.
 
-canvas assignment - find canvas assignment, use select framework for which class, followed by which assignment. list all details relevant. by default, this command should list only the items due within CANVAS_DEFAULT_DAYS (env setting, default 3). supports -d/--days flag to override.
+canvas-cli assignment - find canvas assignment, use select framework for which class, followed by which assignment. list all details relevant. by default, this command should list only the items due within CANVAS_DEFAULT_DAYS (env setting, default 3). supports -d/--days flag to override.
 
-canvas assignment -d <days> - same as canvas assignment, but filters to assignments due within specified number of days
+canvas-cli assignment -d <days> - same as canvas-cli assignment, but filters to assignments due within specified number of days
 
-canvas assignment -a / canvas assignment --all - same as canvas assignment, but lists all assignments
+canvas-cli assignment -a / canvas-cli assignment --all - same as canvas-cli assignment, but lists all assignments
 
-canvas submit - submits a file for assignment. uses select feature to navigate to assignment, then uses it to select a file in the current directory. this command should sort assignments to file upload only. 
+canvas-cli submit - submits a file for assignment. uses select feature to navigate to assignment, then uses it to select a file in the current directory. this command should sort assignments to file upload only.
 
-canvas raw [any command] - returns raw unformatted data from the API
+canvas-cli raw <endpoint> - returns raw unformatted data from the API
 
-canvas open - opens canvas in the default browser
+canvas-cli open - opens canvas in the default browser
+
+canvas-cli alias - install a `canvas` shortcut alias for `canvas-cli` in the user's shell rc file (zsh/bash/fish supported)
+
+canvas-cli about - displays version, license, and authenticated institution
 
 DIRECTIONS FOR DEVELOPING THIS APP:
 

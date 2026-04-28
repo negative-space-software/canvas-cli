@@ -120,7 +120,7 @@ Contains:
 1. Read QUICK_REFERENCE.md → Call Canvas API code snippet
 2. Reference ARCHITECTURE.md → Section 9: API CLIENT
 3. Look at code: `/Users/nicho/Projects/canvas-cli/src/api/client.js`
-4. Test with: `canvas raw /api/v1/your/endpoint`
+4. Test with: `canvas-cli raw /api/v1/your/endpoint`
 
 ---
 
@@ -150,7 +150,8 @@ Contains:
 │   │   └── about.js              # Version/info
 │   ├── ui/
 │   │   ├── select.js             # Interactive menus
-│   │   └── display.js            # Formatted output
+│   │   ├── display.js            # Domain renderers + getCourseColor
+│   │   └── format.js             # Generic primitives (truncate, getTerminalWidth)
 │   └── utils/
 │       ├── config.js             # Config management
 │       ├── dates.js              # Date utilities
@@ -163,16 +164,17 @@ Contains:
 
 ```bash
 # Development
-npm start                          # Run CLI locally
-canvas auth                        # Authenticate
-canvas list                        # List assignments (next 3 days)
-canvas list-all                    # List all assignments
-canvas class                       # View course details
-canvas assignment                  # View assignment details
-canvas submit                      # Submit file for assignment
-canvas raw /api/v1/users/self      # Test API endpoint
-canvas open                        # Open Canvas in browser
-canvas about                       # Show version info
+npm start                              # Run CLI locally
+canvas-cli auth                        # Authenticate
+canvas-cli list                        # List assignments (next 3 days)
+canvas-cli list-all                    # List all assignments
+canvas-cli class                       # View course details
+canvas-cli assignment                  # View assignment details
+canvas-cli submit                      # Submit file for assignment
+canvas-cli raw /api/v1/users/self      # Test API endpoint
+canvas-cli open                        # Open Canvas in browser
+canvas-cli about                       # Show version info
+canvas-cli alias                       # Install `canvas` shell alias
 ```
 
 ---

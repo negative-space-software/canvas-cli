@@ -19,25 +19,10 @@ const inquirer = require('inquirer');
 const open = require('open');
 const { formatDate, getDueDateColor, groupByWeek, sortByDueDate, getWeekEnd } = require('../utils/dates');
 const { getWeekViewWeeks } = require('../utils/config');
+const { getTerminalWidth, truncate } = require('./format');
 
 // Cache for course colors to ensure consistency
 const courseColorCache = new Map();
-
-/**
- * Get terminal width, with fallback
- */
-function getTerminalWidth() {
-  return process.stdout.columns || 80;
-}
-
-/**
- * Truncate text to fit within maxLength, adding ellipsis if needed
- */
-function truncate(text, maxLength) {
-  if (!text || text.length <= maxLength) return text;
-  if (maxLength <= 3) return '...'.slice(0, maxLength);
-  return text.slice(0, maxLength - 3) + '...';
-}
 
 /**
  * Get consistent color for course based on Canvas custom color or fallback

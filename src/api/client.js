@@ -25,7 +25,7 @@ function createClient() {
   const baseUrl = config.getCanvasUrl();
 
   if (!token || !baseUrl) {
-    throw new Error('Not authenticated. Run: canvas auth');
+    throw new Error('Not authenticated. Run: canvas-cli auth');
   }
 
   return axios.create({

@@ -6,6 +6,7 @@
 |---------|-----------|----------------------|
 | Interactive Selection | `src/ui/select.js` | `selectCourse()`, `selectAssignment()`, `selectFile()` |
 | Display Output | `src/ui/display.js` | `displayAssignmentsList()`, `displayAssignmentDetails()`, `getCourseColor()` |
+| Terminal Primitives | `src/ui/format.js` | `truncate()`, `getTerminalWidth()` |
 | API Wrapper | `src/api/client.js` | `createClient()`, `getCourses()`, `getAllAssignments()` |
 | Config Management | `src/utils/config.js` | `getToken()`, `getCanvasUrl()`, `saveConfig()` |
 | Date Filtering | `src/utils/dates.js` | `isDueWithinDays()`, `isDue()`, `isOverdue()`, `formatDate()` |

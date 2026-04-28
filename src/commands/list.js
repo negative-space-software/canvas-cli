@@ -35,19 +35,19 @@ async function listCommand(options) {
     let filteredAssignments = [];
 
     if (options.all && options.overdue) {
-      // canvas list all overdue
+      // canvas-cli list all overdue
       filteredAssignments = allAssignments.filter(isOverdue);
     } else if (options.all && options.due) {
-      // canvas list all due
+      // canvas-cli list all due
       filteredAssignments = allAssignments.filter(isDue);
     } else if (options.all) {
-      // canvas list all
+      // canvas-cli list all
       filteredAssignments = allAssignments;
     } else if (options.days) {
-      // canvas list with custom days filter
+      // canvas-cli list with custom days filter
       filteredAssignments = allAssignments.filter(a => isDueWithinDays(a, options.days));
     } else {
-      // canvas list (default: next 3 days)
+      // canvas-cli list (default: next 3 days)
       filteredAssignments = allAssignments.filter(a => isDueWithinDays(a, 3));
     }
 

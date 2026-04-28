@@ -79,7 +79,8 @@ src/
 │   └── about.js       # Display version/project info
 ├── ui/
 │   ├── select.js      # Interactive selection menus
-│   └── display.js     # Display formatted output
+│   ├── display.js     # Domain renderers (assignments, courses) + getCourseColor
+│   └── format.js      # Generic terminal primitives (truncate, getTerminalWidth)
 └── utils/
     ├── config.js      # Token/URL management
     ├── dates.js       # Date filtering and formatting
@@ -293,7 +294,7 @@ function displayError(error) {
 function requireAuth(config) {
   if (!config.isAuthenticated()) {
     console.error(chalk.red('\n[!] Not authenticated. Please run:'));
-    console.error(chalk.yellow('  canvas auth\n'));
+    console.error(chalk.yellow('  canvas-cli auth\n'));
     process.exit(1);
   }
 }
@@ -468,7 +469,7 @@ function createClient() {
   const baseUrl = config.getCanvasUrl();
   
   if (!token || !baseUrl) {
-    throw new Error('Not authenticated. Run: canvas auth');
+    throw new Error('Not authenticated. Run: canvas-cli auth');
   }
   
   return axios.create({
@@ -813,12 +814,12 @@ function extractInstitutionName(url) {
 
 ```json
 {
-  "name": "canvas-cli",
+  "name": "@negative-space-software/canvas-cli",
   "version": "1.0.0",
   "description": "CLI tool for Canvas LMS - works with any university or school",
   "main": "src/index.js",
   "bin": {
-    "canvas": "./src/index.js"
+    "canvas-cli": "./src/index.js"
   },
   "scripts": {
     "start": "node src/index.js"
@@ -836,7 +837,7 @@ function extractInstitutionName(url) {
 }
 ```
 
-**bin.canvas:** Makes `canvas` command available globally after npm install -g
+**bin.canvas-cli:** Makes `canvas-cli` command available globally after `npm install -g @negative-space-software/canvas-cli`. Users can optionally add a `canvas` shell alias via `canvas-cli alias`.
 
 ---
 

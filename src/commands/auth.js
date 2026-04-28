@@ -19,6 +19,7 @@ const axios = require('axios');
 const chalk = require('chalk');
 const config = require('../utils/config');
 const { displayError } = require('../utils/errors');
+const { offerAliasInstall } = require('../utils/shellAlias');
 
 /**
  * Extract Canvas URL from error response
@@ -177,6 +178,9 @@ async function authCommand() {
       config.saveConfig(token, canvasUrl);
       console.log(chalk.green('\n[+] Authentication successful!'));
     }
+
+    // Offer to install `canvas` alias for the current shell
+    await offerAliasInstall();
 
   } catch (error) {
     displayError(error);

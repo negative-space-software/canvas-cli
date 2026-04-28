@@ -1,11 +1,18 @@
 {
-  "name": "canvas-cli",
+  "name": "@negative-space-software/canvas-cli",
   "version": "1.0.0",
   "description": "CLI tool for Canvas LMS - works with any university or school",
   "main": "src/index.js",
   "bin": {
-    "canvas": "./src/index.js"
+    "canvas-cli": "./src/index.js"
   },
+  "files": [
+    "src/",
+    "LICENSE",
+    "README.md",
+    "canvas.png",
+    "nss.png"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
@@ -14,6 +21,17 @@
   "author": "Negative Space Software",
   "license": "Apache-2.0",
   "type": "commonjs",
+  "homepage": "https://github.com/negative-space-software/canvas-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/negative-space-software/canvas-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/negative-space-software/canvas-cli/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "asciify-image": "^0.1.10",
     "axios": "^1.12.2",

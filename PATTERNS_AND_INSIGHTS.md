@@ -21,7 +21,7 @@ The codebase follows a clean **three-layer architecture**:
    - Configuration management (config.js)
 
 ### Why This Matters
-- Changes to display format → edit only `src/ui/display.js`
+- Changes to display format → edit `src/ui/display.js` (renderers) or `src/ui/format.js` (primitives)
 - Changes to API → edit only `src/api/client.js`
 - Changes to business logic → edit command files
 - Easy to add new commands without duplicating code
@@ -372,7 +372,7 @@ Instead of `.env` in project:
 - Loaded on every command startup with `dotenv.config()`
 
 **Benefits:**
-- Run `canvas` from any directory
+- Run `canvas-cli` from any directory
 - Single token works across all projects
 - Survives `cd` commands
 - No accidental git commits of secrets
@@ -521,8 +521,8 @@ const [coursesResponse, customColors] = await Promise.all([
 
 **Raw command for API testing:**
 ```bash
-canvas raw /api/v1/users/self
-canvas raw /api/v1/courses
+canvas-cli raw /api/v1/users/self
+canvas-cli raw /api/v1/courses
 ```
 
 **Validate API response format** before adding feature:

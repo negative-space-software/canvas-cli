@@ -25,12 +25,13 @@ const submitCommand = require('./commands/submit');
 const rawCommand = require('./commands/raw');
 const openCommand = require('./commands/open');
 const aboutCommand = require('./commands/about');
+const aliasCommand = require('./commands/alias');
 const chalk = require('chalk');
 
 const program = new Command();
 
 program
-  .name('canvas')
+  .name('canvas-cli')
   .description('CLI tool for Canvas LMS')
   .version('1.0.0');
 
@@ -113,6 +114,12 @@ program
   .command('about')
   .description('Display version and project information')
   .action(aboutCommand);
+
+// Alias command
+program
+  .command('alias')
+  .description('Install a `canvas` shortcut alias for `canvas-cli` in your shell')
+  .action(aliasCommand);
 
 // Check if no command provided before parsing
 const args = process.argv.slice(2);
